@@ -1,0 +1,142 @@
+function toggleForms() {
+  const signUpForm = document.getElementById("sign-up-form");
+  const logInForm = document.getElementById("log-in-form");
+
+  if (signUpForm.style.display === "none" || signUpForm.style.display === "") {
+      signUpForm.style.display = "block";
+      logInForm.style.display = "none";
+  } else {
+      signUpForm.style.display = "none";
+      logInForm.style.display = "block";
+  }
+}
+
+function signUp() {
+  const username = document.getElementById("signup-username").value;
+  const password = document.getElementById("signup-password").value;
+
+  if (!username || !password) {
+      alert("Please enter a username and password.");
+      return;
+  }
+
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+  const existingUser = users.find(u => u.username === username);
+
+  if (existingUser) {
+      alert("Username already exists. Please choose a different username.");
+      return;
+  }
+
+  users.push({ username, password });
+  localStorage.setItem("users", JSON.stringify(users));
+
+  alert("Sign Up successful!");
+  toggleForms();
+}
+
+function logIn() {
+  const username = document.getElementById("login-username").value;
+  const password = document.getElementById("login-password").value;
+
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+  const user = users.find(u => u.username === username && u.password === password);
+
+  if (user) {
+      alert("Log In successful!");
+      showDashboard();
+  } else {
+      alert("Invalid username or password.");
+  }
+}
+
+// Variables for form elements
+const productForm = document.getElementById('productForm');
+const productNameInput = document.getElementById('productName');
+const productCategoryInput = document.getElementById('productCategory');
+const productPriceInput = document.getElementById('productPrice');
+const productQuantityInput = document.getElementById('productQuantity');
+const productTable = document.getElementById('productTable').querySelector('tbody');
+const productIdInput = document.getElementById('productId');
+const submitButton = document.getElementById('submitButton');
+
+let products = [];
+
+// Load products from localStorage
+function loadProducts() {
+  const storedProducts = localStorage.getItem('products');
+  if (storedProducts) {
+    products = JSON.parse(storedProducts);
+  }
+  renderProducts();
+}
+
+// Save products to localStorage
+function saveProducts() {
+  localStorage.setItem('products', JSON.stringify(products));
+}
+
+// Render products to the table
+function renderProducts() {
+  productTable.innerHTML = '';
+  products.forEach((product, index) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${product.name}</td>
+      <td>${product.category}</td>
+      <td>${product.price}</td>
+      <td>${product.quantity}</td>
+      <td>
+        <button onclick="editProduct(${index})">Edit</button>
+        <button onclick="deleteProduct(${index})">Delete</button>
+      </td>
+    `;
+    productTable.appendChild(row);
+  });
+}
+
+// Handle form submission
+productForm.addEventListener('submit', function (e) {
+  e.preventDefault();
+  
+  const product = {
+    name: productNameInput.value,
+    category: productCategoryInput.value,
+    price: parseFloat(productPriceInput.value),
+    quantity: parseInt(productQuantityInput.value)
+  };
+
+  const productId = productIdInput.value;
+  if (productId) {
+    products[productId] = product;
+  } else {
+    products.push(product);
+  }
+  
+  saveProducts();
+  renderProducts();
+  productForm.reset();
+  submitButton.textContent = 'Add Product';
+  productIdInput.value = '';
+});
+
+// Edit a product
+function editProduct(index) {
+  const product = products[index];
+  productNameInput.value = product.name;
+  productCategoryInput.value = product.category;
+  productPriceInput.value = product.price;
+  productQuantityInput.value = product.quantity;
+  productIdInput.value = index;
+  submitButton.textContent = 'Update Product';
+}
+
+// Delete a product
+function deleteProduct(index) {
+  products.splice(index, 1);
+  saveProducts();
+  renderProducts();
+}
+
+// Initial load of products
+loadProducts();
