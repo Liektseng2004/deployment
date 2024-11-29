@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/https//Lieketseng2004/github.io/deployment/static/css/main.e6c13ad2.css",
+    "main.js": "/https//Lieketseng2004/github.io/deployment/static/js/main.e68b9d71.js",
+    "static/js/453.cd016445.chunk.js": "/https//Lieketseng2004/github.io/deployment/static/js/453.cd016445.chunk.js",
+    "index.html": "/https//Lieketseng2004/github.io/deployment/index.html",
+    "main.e6c13ad2.css.map": "/https//Lieketseng2004/github.io/deployment/static/css/main.e6c13ad2.css.map",
+    "main.e68b9d71.js.map": "/https//Lieketseng2004/github.io/deployment/static/js/main.e68b9d71.js.map",
+    "453.cd016445.chunk.js.map": "/https//Lieketseng2004/github.io/deployment/static/js/453.cd016445.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.e68b9d71.js"
+  ]
+}
